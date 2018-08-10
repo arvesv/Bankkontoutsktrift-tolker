@@ -34,7 +34,8 @@ namespace TestCore
 
             Assert.Equal(new LocalDate(2018,1,9), resultTransaction.RecordDate);
             Assert.Equal(new LocalDate(2018, 1, 8), resultTransaction.TransactionDate);
-            Assert.Equal(511.26m, resultTransaction.Amount);
+            Assert.Equal(-511.26m, resultTransaction.Amount);
+            Assert.Equal("St1 46137 Jerikoveie Oslo", resultTransaction.Description);
         }
 
         [Fact]
@@ -53,8 +54,26 @@ namespace TestCore
 
             Assert.Equal(new LocalDate(2018, 1, 2), resultTransaction.RecordDate);
             Assert.Equal(new LocalDate(2017, 12, 30), resultTransaction.TransactionDate);
-            Assert.Equal(1437.44m, resultTransaction.Amount);
+            Assert.Equal(-1437.44m, resultTransaction.Amount);
+        }
 
+        [Fact]
+        public void TestStrangeFormatting()
+        {
+            var content = new[]
+            {
+                "         03.04.18      Peixes Nice 31.03                                          30.04.18                   741,49",
+                "Eur 75 Kurs 9.88653",
+                "03.04.18      Bank Ocr                                                   30.03.18                                     22 329,31"
+            };
+
+            var parser = new Core.TrumfVisa(content);
+            var result = parser.GeTrasactions();
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.Equal(2, result.Count());
+
+            Assert.Equal("Bank Ocr", result.ToArray()[1].Description);
         }
     }
 }

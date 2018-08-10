@@ -8,5 +8,6 @@ namespace Core
         public LocalDate TransactionDate;
         public LocalDate RecordDate;
         public decimal Amount;
+        public string Description;
     }
 }
