@@ -35,6 +35,25 @@ namespace TestCore
             Assert.Equal(new LocalDate(2018,1,9), resultTransaction.RecordDate);
             Assert.Equal(new LocalDate(2018, 1, 8), resultTransaction.TransactionDate);
             Assert.Equal(511.26m, resultTransaction.Amount);
+        }
+
+        [Fact]
+        public void TestSingleTransactionWithSpecilCases()
+        {
+            var content = new[] { "02.01.18 Clas Ohl 2852 Oslo 30.12 30.01.18 1 437,44" };
+
+            var parser = new Core.TrumfVisa(content);
+            var result = parser.GeTrasactions();
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.Single(result);
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            var resultTransaction = result.First();
+
+            Assert.Equal(new LocalDate(2018, 1, 2), resultTransaction.RecordDate);
+            Assert.Equal(new LocalDate(2017, 12, 30), resultTransaction.TransactionDate);
+            Assert.Equal(1437.44m, resultTransaction.Amount);
 
         }
     }

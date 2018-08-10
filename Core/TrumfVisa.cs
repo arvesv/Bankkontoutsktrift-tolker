@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text.RegularExpressions;
 using NodaTime;
@@ -25,16 +26,27 @@ namespace Core
 
                 if (z.Success)
                 {
+                    var recordDate = new LocalDate(
+                        2000 + int.Parse(z.Groups[3].Value),
+                        int.Parse(z.Groups[2].Value),
+                        int.Parse(z.Groups[1].Value));
+
+                    var transactionDate = new LocalDate(
+                        2000 + int.Parse(z.Groups[3].Value),
+                        int.Parse(z.Groups[5].Value),
+                        int.Parse(z.Groups[4].Value));
+
+                    if (transactionDate > recordDate)
+                        transactionDate = new LocalDate(
+                            recordDate.PlusMonths(-1).Year,
+                            transactionDate.Month,
+                            transactionDate.Day
+                        );
+
                     list.Add(new Trasaction
                     {
-                        RecordDate = new LocalDate(
-                            2000+int.Parse(z.Groups[3].Value),
-                            int.Parse(z.Groups[2].Value),
-                            int.Parse(z.Groups[1].Value)),
-                        TransactionDate =  new LocalDate(
-                            2000 + int.Parse(z.Groups[3].Value),
-                            int.Parse(z.Groups[5].Value),
-                            int.Parse(z.Groups[4].Value)),
+                        RecordDate = recordDate,
+                        TransactionDate = transactionDate,
                         Amount = decimal.Parse(z.Groups[6].Value)
                     });
                 }
