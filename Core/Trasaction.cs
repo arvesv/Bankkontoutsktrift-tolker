@@ -1,15 +1,14 @@
 ﻿using NodaTime;
-using System;
 
 namespace Core
 {
     public class Trasaction
     {
-        public LocalDate TransactionDate;
-        public LocalDate RecordDate;
         public decimal Amount;
-        public string Description;
-        public string Currency;
         public decimal CurAmount;
+        public string Currency;
+        public string Description;
+        public LocalDate RecordDate;
+        public LocalDate TransactionDate;
     }
 }

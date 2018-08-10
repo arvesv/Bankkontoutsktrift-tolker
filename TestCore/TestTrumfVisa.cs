@@ -1,4 +1,5 @@
 using System.Linq;
+using Core;
 using NodaTime;
 using Xunit;
 
@@ -6,13 +7,12 @@ namespace TestCore
 {
     public class TestTrumfVisa
     {
-
         [Fact]
         public void TestNoTransaction()
         {
-            var content = new[] { "lorem ipsum 232" };
+            var content = new[] {"lorem ipsum 232"};
 
-            var parser = new Core.TrumfVisa(content);
+            var parser = new TrumfVisa(content);
             var result = parser.GeTrasactions();
 
             Assert.Empty(result);
@@ -23,7 +23,7 @@ namespace TestCore
         {
             var content = new[] {"09.01.18 St1 46137 Jerikoveie Oslo 08.01 30.01.18 511,26"};
 
-            var parser = new Core.TrumfVisa(content);
+            var parser = new TrumfVisa(content);
             var result = parser.GeTrasactions();
 
             // ReSharper disable once PossibleMultipleEnumeration
@@ -32,7 +32,7 @@ namespace TestCore
             // ReSharper disable once PossibleMultipleEnumeration
             var resultTransaction = result.First();
 
-            Assert.Equal(new LocalDate(2018,1,9), resultTransaction.RecordDate);
+            Assert.Equal(new LocalDate(2018, 1, 9), resultTransaction.RecordDate);
             Assert.Equal(new LocalDate(2018, 1, 8), resultTransaction.TransactionDate);
             Assert.Equal(-511.26m, resultTransaction.Amount);
             Assert.Equal("St1 46137 Jerikoveie Oslo", resultTransaction.Description);
@@ -41,9 +41,9 @@ namespace TestCore
         [Fact]
         public void TestSingleTransactionWithSpecilCases()
         {
-            var content = new[] { "02.01.18 Clas Ohl 2852 Oslo 30.12 30.01.18 1 437,44" };
+            var content = new[] {"02.01.18 Clas Ohl 2852 Oslo 30.12 30.01.18 1 437,44"};
 
-            var parser = new Core.TrumfVisa(content);
+            var parser = new TrumfVisa(content);
             var result = parser.GeTrasactions();
 
             // ReSharper disable once PossibleMultipleEnumeration
@@ -67,7 +67,7 @@ namespace TestCore
                 "03.04.18      Bank Ocr                                                   30.03.18                                     22 329,31"
             };
 
-            var parser = new Core.TrumfVisa(content);
+            var parser = new TrumfVisa(content);
             var result = parser.GeTrasactions();
 
             // ReSharper disable once PossibleMultipleEnumeration
@@ -81,8 +81,6 @@ namespace TestCore
 
             // ReSharper disable once PossibleMultipleEnumeration
             Assert.Equal(-75m, result.ToArray()[0].CurAmount);
-
-
         }
     }
 }

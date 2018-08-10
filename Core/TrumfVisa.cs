@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
 using NodaTime;
 
@@ -18,9 +17,11 @@ namespace Core
 
         public IEnumerable<Trasaction> GeTrasactions()
         {
-            string pattern = @"^\s*(\d{2})\.(\d{2})\.(\d{2})\s*([^\s].*[^\s])\s*(\d{2})\.(\d{2})\s*\d{2}\.\d{2}\.\d{2}\s([\d\s]+\,\d\d)\s*$";
-            string inpattern = @"^\s*(\d{2})\.(\d{2})\.(\d{2})\s*([^\s].*[^\s])\s*(\d{2})\.(\d{2}).(\d{2})\s*([\d\s]+\,\d\d)\s*$";
-            string curpattern = @"^\s*([^\s]+)\s+([^\s]+)\s+Kurs\s+([^\s]+)\s*$";
+            var pattern =
+                @"^\s*(\d{2})\.(\d{2})\.(\d{2})\s*([^\s].*[^\s])\s*(\d{2})\.(\d{2})\s*\d{2}\.\d{2}\.\d{2}\s([\d\s]+\,\d\d)\s*$";
+            var inpattern =
+                @"^\s*(\d{2})\.(\d{2})\.(\d{2})\s*([^\s].*[^\s])\s*(\d{2})\.(\d{2}).(\d{2})\s*([\d\s]+\,\d\d)\s*$";
+            var curpattern = @"^\s*([^\s]+)\s+([^\s]+)\s+Kurs\s+([^\s]+)\s*$";
             var list = new List<Trasaction>();
 
             foreach (var line in _content)
@@ -68,7 +69,7 @@ namespace Core
                     list.Add(new Trasaction
                     {
                         TransactionDate = recordDate,
-                        RecordDate =  recordDate,
+                        RecordDate = recordDate,
                         Amount = decimal.Parse(z.Groups[8].Value),
                         Description = z.Groups[4].Value
                     });
@@ -85,22 +86,14 @@ namespace Core
 
                     transaction.CurAmount = -decimal.Parse(z.Groups[2].Value);
                 }
-
-
-
-
-
             }
+
             return list;
         }
 
         public bool IsParseable
         {
-
-            get
-            {
-                return _content.FirstOrDefault(l => l.Contains("Trumf Visa")) != null;
-            }
+            get { return _content.FirstOrDefault(l => l.Contains("Trumf Visa")) != null; }
         }
     }
 }
