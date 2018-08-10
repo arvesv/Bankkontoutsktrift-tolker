@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text.RegularExpressions;
@@ -19,6 +20,7 @@ namespace Core
         {
             string pattern = @"^\s*(\d{2})\.(\d{2})\.(\d{2})\s*([^\s].*[^\s])\s*(\d{2})\.(\d{2})\s*\d{2}\.\d{2}\.\d{2}\s([\d\s]+\,\d\d)\s*$";
             string inpattern = @"^\s*(\d{2})\.(\d{2})\.(\d{2})\s*([^\s].*[^\s])\s*(\d{2})\.(\d{2}).(\d{2})\s*([\d\s]+\,\d\d)\s*$";
+            string curpattern = @"^\s*([^\s]+)\s+([^\s]+)\s+Kurs\s+([^\s]+)\s*$";
             var list = new List<Trasaction>();
 
             foreach (var line in _content)
@@ -73,6 +75,17 @@ namespace Core
 
                     continue;
                 }
+
+                z = Regex.Match(line, curpattern);
+                if (z.Success)
+                {
+                    var transaction = list.LastOrDefault();
+                    Debug.Assert(transaction != null, nameof(transaction) + " != null");
+                    transaction.Currency = z.Groups[1].Value;
+
+                    transaction.CurAmount = -decimal.Parse(z.Groups[2].Value);
+                }
+
 
 
 

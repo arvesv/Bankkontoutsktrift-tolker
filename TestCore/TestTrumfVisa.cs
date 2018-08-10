@@ -73,7 +73,16 @@ namespace TestCore
             // ReSharper disable once PossibleMultipleEnumeration
             Assert.Equal(2, result.Count());
 
+            // ReSharper disable once PossibleMultipleEnumeration
             Assert.Equal("Bank Ocr", result.ToArray()[1].Description);
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.Equal("Eur", result.ToArray()[0].Currency);
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.Equal(-75m, result.ToArray()[0].CurAmount);
+
+
         }
     }
 }
