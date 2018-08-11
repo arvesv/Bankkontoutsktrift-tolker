@@ -1,4 +1,5 @@
-﻿using NodaTime;
+﻿using System;
+using NodaTime;
 
 namespace Core
 {
@@ -10,5 +11,10 @@ namespace Core
         public string Description;
         public LocalDate RecordDate;
         public LocalDate TransactionDate;
+
+        public override string ToString()
+        {
+            return String.Format("{0:d} {1,-40} {2,15}", TransactionDate, Description, Amount);
+        }
     }
 }

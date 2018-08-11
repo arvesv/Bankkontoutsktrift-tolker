@@ -6,16 +6,16 @@ using NodaTime;
 
 namespace Core
 {
-    public class TrumfVisa : IParser
+    public class TrumfVisa : ParserBase
     {
-        private readonly string[] _content;
-
+        // A text that only apprears in an Trumf Visa invoice
+        private readonly string MagicText = "Trumf Visa";
         public TrumfVisa(string[] content)
+        :base(content)
         {
-            _content = content;
         }
 
-        public IEnumerable<Trasaction> GeTrasactions()
+        public override IEnumerable<Trasaction> GeTrasactions()
         {
             var pattern =
                 @"^\s*(\d{2})\.(\d{2})\.(\d{2})\s*([^\s].*[^\s])\s*(\d{2})\.(\d{2})\s*\d{2}\.\d{2}\.\d{2}\s([\d\s]+\,\d\d)\s*$";
@@ -91,9 +91,6 @@ namespace Core
             return list;
         }
 
-        public bool IsParseable
-        {
-            get { return _content.FirstOrDefault(l => l.Contains("Trumf Visa")) != null; }
-        }
+        public override bool IsParseable => Contains(MagicText);
     }
 }

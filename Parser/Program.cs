@@ -10,7 +10,8 @@ namespace Parser
         // List of "kontoutskrifte" we recognize
         private static readonly Type[] ParserClasses =
         {
-            typeof(TrumfVisa)
+            typeof(TrumfVisa),
+            typeof(KomplettKreditt)
         };
 
 
@@ -24,7 +25,7 @@ namespace Parser
                 .FirstOrDefault(p => p.IsParseable)?
                 .GeTrasactions();
 
-            foreach (var r in result) Console.Write(r);
+            foreach (var r in result) Console.WriteLine(r);
         }
     }
 }
