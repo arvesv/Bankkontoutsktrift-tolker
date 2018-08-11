@@ -7,16 +7,16 @@ namespace Core
 {
     public abstract class ParserBase : IParser
     {
-        internal readonly string[] _content;
+        internal readonly IEnumerable<string> _content;
 
-        public ParserBase(string[] content)
+        protected ParserBase(IEnumerable<string> content)
         {
             _content = content;
         }
 
         public abstract bool IsParseable { get; }
 
-        public abstract IEnumerable<Trasaction> GeTrasactions();
+        public abstract IEnumerable<Trasaction> GetTransactions();
 
         protected bool Contains(string text)
         {

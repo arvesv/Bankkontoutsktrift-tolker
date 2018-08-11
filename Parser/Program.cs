@@ -23,7 +23,7 @@ namespace Parser
             var result = ParserClasses
                 .Select(t => (IParser) Activator.CreateInstance(t, new object[] {content}))
                 .FirstOrDefault(p => p.IsParseable)?
-                .GeTrasactions();
+                .GetTransactions();
 
             foreach (var r in result) Console.WriteLine(r);
         }

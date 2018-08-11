@@ -25,7 +25,7 @@ namespace TestCore
             };
 
             var parser = new KomplettKreditt(content);
-            var result = parser.GeTrasactions();
+            var result = parser.GetTransactions();
 
             // ReSharper disable once PossibleMultipleEnumeration
             Assert.Single(result);
@@ -38,5 +38,35 @@ namespace TestCore
             Assert.Equal("Bit OSL Gardermoen, Edvard Munchs veg Gardermoen", resultTransaction.Description);
         }
 
+        [Fact]
+        public void TestCurrencyTransaction()
+        {
+            var content = new[]
+            {
+                "15.03.2018           Hunter Bar 5019055, Oslo Lufthavn Gardemoen                                                                262,00",
+                "16.03.2018           CARREFOUR GRANA, CRTA DE ARMILLA S/N GRANADA",
+                "25,52 EUR / Kurs 9,760190                                                                                  249,08"
+            };
+
+            var parser = new KomplettKreditt(content);
+            var result = parser.GetTransactions();
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.Equal(2, result.Count());
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            var resultTransaction = result.Skip(1).First();
+
+            Assert.Equal(new LocalDate(2018, 3, 16), resultTransaction.TransactionDate);
+            Assert.Equal(-249.08m, resultTransaction.Amount);
+            Assert.Equal("CARREFOUR GRANA, CRTA DE ARMILLA S/N GRANADA", resultTransaction.Description);
+
+            Assert.Equal("EUR", resultTransaction.Currency);
+            Assert.Equal(-25.52m, resultTransaction.CurAmount);
+
+
+        }
+
     }
+
 }

@@ -6,6 +6,6 @@ namespace Core
     {
         bool IsParseable { get; }
 
-        IEnumerable<Trasaction> GeTrasactions();
+        IEnumerable<Trasaction> GetTransactions();
     }
 }

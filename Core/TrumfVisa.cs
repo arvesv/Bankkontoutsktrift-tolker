@@ -15,7 +15,7 @@ namespace Core
         {
         }
 
-        public override IEnumerable<Trasaction> GeTrasactions()
+        public override IEnumerable<Trasaction> GetTransactions()
         {
             var pattern =
                 @"^\s*(\d{2})\.(\d{2})\.(\d{2})\s*([^\s].*[^\s])\s*(\d{2})\.(\d{2})\s*\d{2}\.\d{2}\.\d{2}\s([\d\s]+\,\d\d)\s*$";

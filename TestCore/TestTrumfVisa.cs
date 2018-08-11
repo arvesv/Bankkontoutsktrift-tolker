@@ -13,7 +13,7 @@ namespace TestCore
             var content = new[] {"lorem ipsum 232"};
 
             var parser = new TrumfVisa(content);
-            var result = parser.GeTrasactions();
+            var result = parser.GetTransactions();
 
             Assert.Empty(result);
         }
@@ -24,7 +24,7 @@ namespace TestCore
             var content = new[] {"09.01.18 St1 46137 Jerikoveie Oslo 08.01 30.01.18 511,26"};
 
             var parser = new TrumfVisa(content);
-            var result = parser.GeTrasactions();
+            var result = parser.GetTransactions();
 
             // ReSharper disable once PossibleMultipleEnumeration
             Assert.Single(result);
@@ -44,7 +44,7 @@ namespace TestCore
             var content = new[] {"02.01.18 Clas Ohl 2852 Oslo 30.12 30.01.18 1 437,44"};
 
             var parser = new TrumfVisa(content);
-            var result = parser.GeTrasactions();
+            var result = parser.GetTransactions();
 
             // ReSharper disable once PossibleMultipleEnumeration
             Assert.Single(result);
@@ -68,7 +68,7 @@ namespace TestCore
             };
 
             var parser = new TrumfVisa(content);
-            var result = parser.GeTrasactions();
+            var result = parser.GetTransactions();
 
             // ReSharper disable once PossibleMultipleEnumeration
             Assert.Equal(2, result.Count());
