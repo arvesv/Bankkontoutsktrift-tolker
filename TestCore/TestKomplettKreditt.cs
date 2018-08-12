@@ -64,5 +64,29 @@ namespace TestCore
             Assert.Equal(-1234.56m, resultTransaction.Amount);
             Assert.Equal("Bit OSL Gardermoen, Edvard Munchs veg Gardermoen", resultTransaction.Description);
         }
+
+        [Fact]
+        public void TestPaymentInn()
+        {
+            var content = new[]
+            {
+                "01.02.2018 Rema 1000 Torshov, Sandakerveien 24 Oslo -120,00",
+                "20.02.2018 Innbetaling -2 938,50"
+            };
+
+            var parser = new KomplettKreditt(content);
+            var result = parser.GetTransactions();
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.Equal(2, result.Count());
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            var resultTransaction = result.First();
+
+            Assert.Equal(new LocalDate(2018, 2, 1), resultTransaction.TransactionDate);
+            Assert.Equal(120m, resultTransaction.Amount);
+            Assert.Equal("Rema 1000 Torshov, Sandakerveien 24 Oslo", resultTransaction.Description);
+        }
+
     }
 }

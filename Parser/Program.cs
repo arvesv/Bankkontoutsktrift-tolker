@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
 using Core;
 
@@ -17,12 +16,16 @@ namespace Parser
 
         private static void Main(string[] args)
         {
-
             var content = Utilities.PdfToText(args[0]);
             //var filename = args[0];
 
             var result = ParserClasses
-                .Select(t => (IParser) Activator.CreateInstance(t, new object[] {content}))
+                .Select(t =>
+                {
+                    var parser = (IParser) Activator.CreateInstance(t, content);
+                    parser.Source = args[0];
+                    return parser;
+                })
                 .FirstOrDefault(p => p.IsParseable)?
                 .GetTransactions();
 

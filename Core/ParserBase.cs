@@ -7,6 +7,7 @@ namespace Core
     {
         internal readonly IEnumerable<string> Content;
 
+
         protected ParserBase(IEnumerable<string> content)
         {
             Content = content;
@@ -15,6 +16,11 @@ namespace Core
         public abstract bool IsParseable { get; }
 
         public abstract IEnumerable<Trasaction> GetTransactions();
+
+        public string Source { get; set; }
+
+        public string Name { get; set; }
+        public string Account { get; set; }
 
         protected bool Contains(string text)
         {

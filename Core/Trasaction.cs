@@ -4,14 +4,14 @@ namespace Core
 {
     public class Trasaction
     {
+        public string Accout;
         public decimal Amount;
+        public string Bank;
         public decimal CurAmount;
         public string Currency;
         public string Description;
         public LocalDate RecordDate;
         public LocalDate TransactionDate;
-        public string Bank;
-        public string Accout;
 
         public override string ToString()
         {

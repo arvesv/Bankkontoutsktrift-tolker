@@ -8,7 +8,7 @@ namespace Core
     {
         public static IEnumerable<string> PdfToText(string pdfFile)
         {
-            var process = new Process()
+            var process = new Process
             {
                 StartInfo = new ProcessStartInfo
                 {
@@ -19,7 +19,7 @@ namespace Core
             };
 
             process.Start();
-            string result = process.StandardOutput.ReadToEnd();
+            var result = process.StandardOutput.ReadToEnd();
             process.WaitForExit();
 
             return result.Split(Environment.NewLine);

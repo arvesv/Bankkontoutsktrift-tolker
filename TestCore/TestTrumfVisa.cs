@@ -105,6 +105,5 @@ namespace TestCore
             // ReSharper disable once PossibleMultipleEnumeration
             Assert.Equal(12518.62m, result.Amount);
         }
-
     }
 }
