@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Core
 {
     public abstract class ParserBase : IParser
     {
-        internal readonly IEnumerable<string> _content;
+        internal readonly IEnumerable<string> Content;
 
         protected ParserBase(IEnumerable<string> content)
         {
-            _content = content;
+            Content = content;
         }
 
         public abstract bool IsParseable { get; }
@@ -20,7 +18,7 @@ namespace Core
 
         protected bool Contains(string text)
         {
-            return (_content.FirstOrDefault(line => line.Contains(text)) != null);
+            return Content.FirstOrDefault(line => line.Contains(text)) != null;
         }
     }
 }

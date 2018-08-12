@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.27703.2042
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parser", "Parser\Parser.csproj", "{0047390A-286E-4A97-AA8B-8D044E2F40AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{C580A4F7-AAEB-4978-B1FB-6C0602A3C6A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "Core\Core.csproj", "{C580A4F7-AAEB-4978-B1FB-6C0602A3C6A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCore", "TestCore\TestCore.csproj", "{EAD13AE6-20EF-4461-AE51-14AEEA7D9271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestCore", "TestCore\TestCore.csproj", "{EAD13AE6-20EF-4461-AE51-14AEEA7D9271}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

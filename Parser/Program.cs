@@ -17,8 +17,9 @@ namespace Parser
 
         private static void Main(string[] args)
         {
-            var filename = args[0];
-            var content = File.ReadAllLines(filename);
+
+            var content = Utilities.PdfToText(args[0]);
+            //var filename = args[0];
 
             var result = ParserClasses
                 .Select(t => (IParser) Activator.CreateInstance(t, new object[] {content}))

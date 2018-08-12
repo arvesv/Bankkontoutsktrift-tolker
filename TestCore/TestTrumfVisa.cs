@@ -63,7 +63,7 @@ namespace TestCore
             var content = new[]
             {
                 "         03.04.18      Peixes Nice 31.03                                          30.04.18                   741,49",
-                "Eur 75 Kurs 9.88653",
+                "Eur 75.3 Kurs 9.88653",
                 "03.04.18      Bank Ocr                                                   30.03.18                                     22 329,31"
             };
 
@@ -80,7 +80,31 @@ namespace TestCore
             Assert.Equal("Eur", result.ToArray()[0].Currency);
 
             // ReSharper disable once PossibleMultipleEnumeration
-            Assert.Equal(-75m, result.ToArray()[0].CurAmount);
+            Assert.Equal(-75.3m, result.ToArray()[0].CurAmount);
         }
+
+        [Fact]
+        public void TestStrangeFormatting2()
+        {
+            var content = new[]
+            {
+                "28.12.17 Bank Ocr 28.12.17 12 518,62"
+            };
+
+            var parser = new TrumfVisa(content);
+
+            var result = parser.GetTransactions().FirstOrDefault();
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.NotNull(result);
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.Equal("Bank Ocr", result.Description);
+
+
+            // ReSharper disable once PossibleMultipleEnumeration
+            Assert.Equal(12518.62m, result.Amount);
+        }
+
     }
 }
