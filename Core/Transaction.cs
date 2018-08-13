@@ -2,7 +2,7 @@
 
 namespace Core
 {
-    public class Trasaction
+    public class Transaction
     {
         public string Accout;
         public decimal Amount;

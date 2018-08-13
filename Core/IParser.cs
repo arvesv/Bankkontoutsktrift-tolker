@@ -9,6 +9,6 @@ namespace Core
         string Name { get; set; }
         string Account { get; set; }
 
-        IEnumerable<Trasaction> GetTransactions();
+        IEnumerable<Transaction> GetTransactions();
     }
 }

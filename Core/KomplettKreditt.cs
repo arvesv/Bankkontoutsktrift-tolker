@@ -21,7 +21,7 @@ namespace Core
         public override bool IsParseable => Contains(MagicText);
 
 
-        public override IEnumerable<Trasaction> GetTransactions()
+        public override IEnumerable<Transaction> GetTransactions()
         {
             // ReSharper disable once GenericEnumeratorNotDisposed
             var enumerator = Content.GetEnumerator();
@@ -42,12 +42,12 @@ namespace Core
             }
         }
 
-        private Trasaction ReadTransaction(string line)
+        private Transaction ReadTransaction(string line)
         {
             var match = Regex.Match(line, @"^(\d{2}\.\d{2}\.\d{4})\s+(.*\D)\s*((\s\-?\d{1,3})*,\d{2})$");
 
             return match.Success
-                ? new Trasaction
+                ? new Transaction
                 {
                     TransactionDate = DatePattern.Parse(match.Groups[1].Value).Value,
                     RecordDate = DatePattern.Parse(match.Groups[1].Value).Value,
@@ -57,7 +57,7 @@ namespace Core
                 : null;
         }
 
-        private Trasaction ReadCurrencyTransaction(IEnumerator<string> input)
+        private Transaction ReadCurrencyTransaction(IEnumerator<string> input)
         {
             var match = Regex.Match(input.Current, @"^(\d{2}\.\d{2}\.\d{4})\s*([^\s].*[^\s])$");
 
@@ -67,7 +67,7 @@ namespace Core
                     @"^\s*([\d\s]+\,\d+)\s(\w+)\s\/\sKurs\s([\d\,]+)\s+([\d\s]+\,\d+).*$");
                 if (match2.Success)
                 {
-                    var trans = new Trasaction
+                    var trans = new Transaction
                     {
                         TransactionDate = DatePattern.Parse(match.Groups[1].Value).Value,
                         RecordDate = DatePattern.Parse(match.Groups[1].Value).Value,

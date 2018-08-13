@@ -15,7 +15,7 @@ namespace Core
 
         public abstract bool IsParseable { get; }
 
-        public abstract IEnumerable<Trasaction> GetTransactions();
+        public abstract IEnumerable<Transaction> GetTransactions();
 
         public string Source { get; set; }
 
