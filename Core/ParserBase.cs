@@ -23,15 +23,12 @@ namespace Core
 
                 while (hasReadAhead || enumerator.MoveNext())
                 {
-                    Transaction trans = null;
+                    Transaction trans;
 
                     (trans, hasReadAhead) = ParseLine(enumerator);
 
 
-                    if (trans != null)
-                    {
-                        yield return trans;
-                    }
+                    if (trans != null) yield return trans;
                 }
             }
         }
