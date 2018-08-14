@@ -21,26 +21,25 @@ namespace Core
         public override bool IsParseable => Contains(MagicText);
 
 
-        public override IEnumerable<Transaction> GetTransactions()
+        public override (Transaction, bool) ParseLine(IEnumerator<string> enumerator)
         {
-            // ReSharper disable once GenericEnumeratorNotDisposed
-            var enumerator = Content.GetEnumerator();
-
-            while (enumerator.MoveNext())
+            var transaction = ReadTransaction(enumerator.Current);
+            if (transaction != null)
             {
-                var line = enumerator.Current;
-                var transaction = ReadTransaction(line);
+                return (transaction, false);
+            }
+            else
+            {
+                transaction = ReadCurrencyTransaction(enumerator);
                 if (transaction != null)
                 {
-                    yield return transaction;
-                }
-                else
-                {
-                    transaction = ReadCurrencyTransaction(enumerator);
-                    if (transaction != null) yield return transaction;
+                    return (transaction, false);
                 }
             }
+
+            return base.ParseLine(enumerator);
         }
+
 
         private Transaction ReadTransaction(string line)
         {
@@ -65,19 +64,17 @@ namespace Core
             {
                 var match2 = Regex.Match(input.Current,
                     @"^\s*([\d\s]+\,\d+)\s(\w+)\s\/\sKurs\s([\d\,]+)\s+([\d\s]+\,\d+).*$");
-                if (match2.Success)
+
+                var trans = new Transaction
                 {
-                    var trans = new Transaction
-                    {
-                        TransactionDate = DatePattern.Parse(match.Groups[1].Value).Value,
-                        RecordDate = DatePattern.Parse(match.Groups[1].Value).Value,
-                        Description = match.Groups[2].Value,
-                        Amount = -decimal.Parse(match2.Groups[4].Value),
-                        Currency = match2.Groups[2].Value,
-                        CurAmount = -decimal.Parse(match2.Groups[1].Value)
-                    };
-                    return trans;
-                }
+                    TransactionDate = DatePattern.Parse(match.Groups[1].Value).Value,
+                    RecordDate = DatePattern.Parse(match.Groups[1].Value).Value,
+                    Description = match.Groups[2].Value,
+                    Amount = -decimal.Parse(match2.Groups[4].Value),
+                    Currency = match2.Groups[2].Value,
+                    CurAmount = -decimal.Parse(match2.Groups[1].Value)
+                };
+                return trans;
             }
 
             return null;

@@ -15,7 +15,32 @@ namespace Core
 
         public abstract bool IsParseable { get; }
 
-        public abstract IEnumerable<Transaction> GetTransactions();
+        public virtual (Transaction, bool) ParseLine(IEnumerator<string> enumerator)
+        {
+            return (null, false);
+        }
+
+        public virtual IEnumerable<Transaction> GetTransactions()
+        {
+            using (var enumerator = Content.GetEnumerator())
+            {
+                var hasReadAhead = false;
+
+                while (hasReadAhead || enumerator.MoveNext())
+                {
+                    Transaction trans = null;
+
+                    (trans, hasReadAhead) = ParseLine(enumerator);
+
+
+                    if (trans != null)
+                    {
+                        yield return trans;
+                        continue;
+                    }
+                }
+            }
+        }
 
         public string Source { get; set; }
 

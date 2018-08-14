@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using System.Xml.Xsl;
 using NodaTime;
 using NodaTime.Text;
 
@@ -22,27 +23,21 @@ namespace Core
 
         public override bool IsParseable => Contains(MagicText);
 
-        public override IEnumerable<Transaction> GetTransactions()
+        public override (Transaction, bool) ParseLine(IEnumerator<string> enumerator)
         {
-            var enumerator = Content.GetEnumerator();
-            var hasreadHead = false;
-
-            while (hasreadHead || enumerator.MoveNext())
+            var (trans, readheadvar) = ParseTransaction(enumerator);
+            if (trans != null)
             {
-                hasreadHead = false;
-
-                var (trans, readheadvar) = ParseTransaction(enumerator);
-
-                if (trans != null)
-                {
-                    hasreadHead = readheadvar;
-                    yield return trans;
-                    continue;
-                }
-
-                trans = ParseInTransaction(enumerator.Current);
-                if (trans != null) yield return trans;
+                return (trans, readheadvar);
             }
+
+            trans = ParseInTransaction(enumerator.Current);
+            if (trans != null)
+            {
+                return (trans, false);
+            }
+
+            return base.ParseLine(enumerator);
         }
 
 

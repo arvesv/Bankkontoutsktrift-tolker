@@ -14,6 +14,8 @@ namespace TestCore
 
             var parser = new KomplettKreditt(content);
             Assert.True(parser.IsParseable);
+
+            Assert.Empty(parser.GetTransactions());
         }
 
         [Fact]

@@ -21,7 +21,11 @@ namespace TestCore
         [Fact]
         public void TestSingleTransaction()
         {
-            var content = new[] {"09.01.18 St1 46137 Jerikoveie Oslo 08.01 30.01.18 511,26"};
+            var content = new[]
+            {
+                "09.01.18 St1 46137 Jerikoveie Oslo 08.01 30.01.18 511,26",
+                "dummy line "
+            };
 
             var parser = new TrumfVisa(content);
             var result = parser.GetTransactions();
