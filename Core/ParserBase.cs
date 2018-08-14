@@ -23,7 +23,7 @@ namespace Core
 
                 while (hasReadAhead || enumerator.MoveNext())
                 {
-                    Transaction trans = null;
+                    Transaction trans;
 
                     (trans, hasReadAhead) = ParseLine(enumerator);
 

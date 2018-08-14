@@ -8,7 +8,8 @@ namespace Core
     public class Utilities
     {
         // List of "kontoutskrifte" we recognize
-        private static readonly Type[] ParserClasses =
+
+        public static Type[] ParserClasses { get; } =
         {
             typeof(TrumfVisa),
             typeof(KomplettKreditt),
@@ -38,9 +39,14 @@ namespace Core
 
         public static IEnumerable<Transaction> Parse(string filename)
         {
-            var content = PdfToText(filename);
+            return Parse(PdfToText(filename), filename);
+        }
 
-            return typeof(Utilities).Assembly.GetTypes()
+        public static IEnumerable<Transaction> Parse(IEnumerable<string> content, string filename = null)
+        { 
+        // Find all classes in this assembly implementing IParser, insansiate the class,
+        // call IsParseable on it, and if yes return the parsed transactions.
+        return typeof(Utilities).Assembly.GetTypes()
                 .Where(t => typeof(IParser).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 .Select(t =>
                 {
