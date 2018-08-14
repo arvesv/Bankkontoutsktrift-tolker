@@ -24,18 +24,10 @@ namespace Core
         public override (Transaction, bool) ParseLine(IEnumerator<string> enumerator)
         {
             var transaction = ReadTransaction(enumerator.Current);
-            if (transaction != null)
-            {
-                return (transaction, false);
-            }
-            else
-            {
-                transaction = ReadCurrencyTransaction(enumerator);
-                if (transaction != null)
-                {
-                    return (transaction, false);
-                }
-            }
+            if (transaction != null) return (transaction, false);
+
+            transaction = ReadCurrencyTransaction(enumerator);
+            if (transaction != null) return (transaction, false);
 
             return base.ParseLine(enumerator);
         }

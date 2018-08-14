@@ -15,11 +15,6 @@ namespace Core
 
         public abstract bool IsParseable { get; }
 
-        public virtual (Transaction, bool) ParseLine(IEnumerator<string> enumerator)
-        {
-            return (null, false);
-        }
-
         public virtual IEnumerable<Transaction> GetTransactions()
         {
             using (var enumerator = Content.GetEnumerator())
@@ -36,7 +31,6 @@ namespace Core
                     if (trans != null)
                     {
                         yield return trans;
-                        continue;
                     }
                 }
             }
@@ -46,6 +40,11 @@ namespace Core
 
         public string Name { get; set; }
         public string Account { get; set; }
+
+        public virtual (Transaction, bool) ParseLine(IEnumerator<string> enumerator)
+        {
+            return (null, false);
+        }
 
         protected bool Contains(string text)
         {

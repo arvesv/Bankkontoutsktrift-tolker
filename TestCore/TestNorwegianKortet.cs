@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Core;
+﻿using Core;
 using Xunit;
 
 namespace TestCore
@@ -23,6 +20,5 @@ namespace TestCore
             var result = parser.GetTransactions();
             Assert.Empty(result);
         }
-
     }
 }

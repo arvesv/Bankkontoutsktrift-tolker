@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using System.Xml.Xsl;
 using NodaTime;
 using NodaTime.Text;
 
@@ -26,16 +25,10 @@ namespace Core
         public override (Transaction, bool) ParseLine(IEnumerator<string> enumerator)
         {
             var (trans, readheadvar) = ParseTransaction(enumerator);
-            if (trans != null)
-            {
-                return (trans, readheadvar);
-            }
+            if (trans != null) return (trans, readheadvar);
 
             trans = ParseInTransaction(enumerator.Current);
-            if (trans != null)
-            {
-                return (trans, false);
-            }
+            if (trans != null) return (trans, false);
 
             return base.ParseLine(enumerator);
         }
