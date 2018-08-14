@@ -14,6 +14,12 @@ namespace Core
         // A text that only apprears in an Trumf Visa invoice
         private readonly string MagicText = "Trumf Visa";
 
+        private NumberFormatInfo _trumfNumberFormat = new NumberFormatInfo
+        {
+            NumberDecimalSeparator = ",",
+            NumberGroupSeparator = " "
+        };
+
 
         public TrumfVisa(string[] content)
             : base(content)
@@ -57,12 +63,16 @@ namespace Core
                         transactionDate.Month,
                         transactionDate.Day);
 
+
+             
+            
                 var trans = new Transaction
                 {
                     RecordDate = recordDate,
                     TransactionDate = transactionDate,
                     Description = match.Groups[2].Value,
-                    Amount = -decimal.Parse(match.Groups[5].Value)
+                    Amount = -decimal.Parse(
+                        match.Groups[5].Value, _trumfNumberFormat)
                 };
 
                 var lookahead = false;
@@ -100,7 +110,7 @@ namespace Core
                 {
                     TransactionDate = DatePattern.Parse(match.Groups[3].Value).Value,
                     RecordDate = DatePattern.Parse(match.Groups[1].Value).Value,
-                    Amount = decimal.Parse(match.Groups[4].Value),
+                    Amount = decimal.Parse(match.Groups[4].Value, _trumfNumberFormat),
                     Description = match.Groups[2].Value
                 }
                 : null;
