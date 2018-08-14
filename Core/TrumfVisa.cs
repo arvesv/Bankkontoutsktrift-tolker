@@ -11,14 +11,14 @@ namespace Core
         private static readonly LocalDatePattern
             DatePattern = LocalDatePattern.CreateWithInvariantCulture("dd.MM.yy");
 
-        // A text that only apprears in an Trumf Visa invoice
-        private readonly string MagicText = "Trumf Visa";
-
         private readonly NumberFormatInfo _trumfNumberFormat = new NumberFormatInfo
         {
             NumberDecimalSeparator = ",",
             NumberGroupSeparator = " "
         };
+
+        // A text that only apprears in an Trumf Visa invoice
+        private readonly string MagicText = "Trumf Visa";
 
 
         public TrumfVisa(string[] content)
@@ -62,7 +62,6 @@ namespace Core
                         recordDate.PlusMonths(-1).Year,
                         transactionDate.Month,
                         transactionDate.Day);
-
 
                 var trans = new Transaction
                 {
