@@ -14,7 +14,7 @@ namespace Core
         // A text that only apprears in an Trumf Visa invoice
         private readonly string MagicText = "Trumf Visa";
 
-        private NumberFormatInfo _trumfNumberFormat = new NumberFormatInfo
+        private readonly NumberFormatInfo _trumfNumberFormat = new NumberFormatInfo
         {
             NumberDecimalSeparator = ",",
             NumberGroupSeparator = " "
@@ -64,8 +64,6 @@ namespace Core
                         transactionDate.Day);
 
 
-             
-            
                 var trans = new Transaction
                 {
                     RecordDate = recordDate,

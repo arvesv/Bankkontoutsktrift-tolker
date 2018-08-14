@@ -28,10 +28,7 @@ namespace Core
                     (trans, hasReadAhead) = ParseLine(enumerator);
 
 
-                    if (trans != null)
-                    {
-                        yield return trans;
-                    }
+                    if (trans != null) yield return trans;
                 }
             }
         }
