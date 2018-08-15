@@ -30,8 +30,31 @@ namespace Core
             trans = ParseTransaction(enumerator.Current);
             if (trans != null) return (trans, false);
 
+            trans = ParseInputTransaction(enumerator.Current);
+            if (trans != null) return (trans, false);
+
             return (null, false);
         }
+
+        private Transaction ParseInputTransaction(string line)
+        {
+            var pattern = @"^(\d{2}\.\d{2}\.\d{4})\s+(.*)\s-\s(?<amount>-?\d{1,3}(\.\d{3})*\,\d{2})$";
+
+            var match = Regex.Match(line, pattern);
+            return match.Success
+                ? new Transaction
+                {
+                    TransactionDate = DatePattern.Parse(match.Groups[1].Value).Value,
+                    RecordDate = DatePattern.Parse(match.Groups[1].Value).Value,
+                    Amount = -decimal.Parse(match.Groups["amount"].Value, _norNumberFormat),
+                    Description = match.Groups[2].Value,
+                    CurAmount = -decimal.Parse(match.Groups["amount"].Value, _norNumberFormat),
+                    Currency = "NOK"
+                }
+                : null;
+
+        }
+
 
         private Transaction ParseTransaction(string line)
         {
