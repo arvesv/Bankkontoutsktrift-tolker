@@ -13,6 +13,8 @@ namespace Core
             Content = content;
         }
 
+        public string DefaultCurrency => "NOK";
+
         public abstract bool IsParseable { get; }
 
         public virtual IEnumerable<Transaction> GetTransactions()

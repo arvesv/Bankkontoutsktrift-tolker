@@ -66,6 +66,7 @@ namespace TestCore
             Assert.Equal(new LocalDate(2018, 2, 1), resultTransaction.TransactionDate);
             Assert.Equal(120m, resultTransaction.Amount);
             Assert.Equal("Rema 1000 Torshov, Sandakerveien 24 Oslo", resultTransaction.Description);
+            Assert.Equal("NOK", resultTransaction.Currency);
         }
 
         [Fact]

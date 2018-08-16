@@ -73,6 +73,8 @@ namespace Core
                 };
 
                 var lookahead = false;
+                trans.Currency = DefaultCurrency;
+                trans.CurAmount = trans.Amount;
 
                 // Lookahead for currency
                 if (enumerator.MoveNext())

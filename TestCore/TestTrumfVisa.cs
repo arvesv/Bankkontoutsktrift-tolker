@@ -59,6 +59,7 @@ namespace TestCore
             Assert.Equal(new LocalDate(2018, 1, 2), resultTransaction.RecordDate);
             Assert.Equal(new LocalDate(2017, 12, 30), resultTransaction.TransactionDate);
             Assert.Equal(-1437.44m, resultTransaction.Amount);
+            Assert.Equal("NOK", resultTransaction.Currency);
         }
 
         [Fact]

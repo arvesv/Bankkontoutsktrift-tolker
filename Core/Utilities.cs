@@ -43,10 +43,10 @@ namespace Core
         }
 
         public static IEnumerable<Transaction> Parse(IEnumerable<string> content, string filename = null)
-        { 
-        // Find all classes in this assembly implementing IParser, insansiate the class,
-        // call IsParseable on it, and if yes return the parsed transactions.
-        return typeof(Utilities).Assembly.GetTypes()
+        {
+            // Find all classes in this assembly implementing IParser, insansiate the class,
+            // call IsParseable on it, and if yes return the parsed transactions.
+            return typeof(Utilities).Assembly.GetTypes()
                 .Where(t => typeof(IParser).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 .Select(t =>
                 {

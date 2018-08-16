@@ -43,7 +43,9 @@ namespace Core
                     TransactionDate = DatePattern.Parse(match.Groups[1].Value).Value,
                     RecordDate = DatePattern.Parse(match.Groups[1].Value).Value,
                     Amount = -decimal.Parse(match.Groups[3].Value),
-                    Description = match.Groups[2].Value.Trim()
+                    Description = match.Groups[2].Value.Trim(),
+                    Currency = DefaultCurrency,
+                    CurAmount = -decimal.Parse(match.Groups[3].Value)
                 }
                 : null;
         }

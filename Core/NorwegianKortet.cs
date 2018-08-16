@@ -49,10 +49,9 @@ namespace Core
                     Amount = -decimal.Parse(match.Groups["amount"].Value, _norNumberFormat),
                     Description = match.Groups[2].Value,
                     CurAmount = -decimal.Parse(match.Groups["amount"].Value, _norNumberFormat),
-                    Currency = "NOK"
+                    Currency = DefaultCurrency
                 }
                 : null;
-
         }
 
 
