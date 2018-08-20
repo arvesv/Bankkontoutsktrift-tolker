@@ -15,7 +15,7 @@ namespace Core
 
         public string DefaultCurrency => "NOK";
 
-        public abstract bool IsParseable { get; }
+        public virtual bool IsParseable => false;
 
         public virtual IEnumerable<Transaction> GetTransactions()
         {

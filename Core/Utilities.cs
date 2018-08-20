@@ -47,15 +47,33 @@ namespace Core
             // Find all classes in this assembly implementing IParser, insansiate the class,
             // call IsParseable on it, and if yes return the parsed transactions.
             return typeof(Utilities).Assembly.GetTypes()
-                .Where(t => typeof(IParser).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
-                .Select(t =>
-                {
-                    var parser = (IParser) Activator.CreateInstance(t, content);
-                    parser.Source = filename;
-                    return parser;
-                })
-                .FirstOrDefault(p => p.IsParseable)?
-                .GetTransactions();
+                       .Where(t => typeof(IParser).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
+                       .Select(t =>
+                       {
+                           var parser = (IParser) Activator.CreateInstance(t, content);
+                           parser.Source = filename;
+                           return parser;
+                       })
+                       .FirstOrDefault(p => p.IsParseable)?
+                       .GetTransactions() ?? new List<Transaction>();
+        }
+
+
+        public static (IEnumerable<Transaction> onlyFirst, IEnumerable<Transaction> onlySecond) CompareListe(
+            IEnumerable<Transaction> first, IList<Transaction> second)
+        {
+            var onlyFirst = new List<Transaction>();
+
+            foreach (var t in first)
+            {
+                var potential = second.Where(s =>
+                    (s.TransactionDate - t.TransactionDate).Days < 5 && s.Amount == t.Amount);
+                if (!potential.Any())
+                    onlyFirst.Add(t);
+            }
+
+
+            return (onlyFirst, null);
         }
     }
 }
