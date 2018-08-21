@@ -15,8 +15,7 @@ namespace Core
 
         public override string ToString()
         {
-            return string.Format("{0:d} {1,-40} {2,15} {3,4} {4,15}", TransactionDate, Description, Amount, Currency,
-                CurAmount);
+            return $"{TransactionDate:d} {Description,-40} {Amount,15} {Currency,4} {CurAmount,15}";
         }
     }
 }

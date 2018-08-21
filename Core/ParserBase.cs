@@ -40,6 +40,15 @@ namespace Core
         public string Name { get; set; }
         public string Account { get; set; }
 
+        public virtual IEnumerable<AccountBalance> GetAccoutBalances()
+        {
+            foreach (var line in Content)
+            {
+                var stmt = ParserStatmentLine(line);
+                if (stmt != null) yield return stmt;
+            }
+        }
+
         public virtual (Transaction, bool) ParseLine(IEnumerator<string> enumerator)
         {
             return (null, false);
@@ -48,6 +57,11 @@ namespace Core
         protected bool Contains(string text)
         {
             return Content.FirstOrDefault(line => line.Contains(text)) != null;
+        }
+
+        public virtual AccountBalance ParserStatmentLine(string line)
+        {
+            return null;
         }
     }
 }
