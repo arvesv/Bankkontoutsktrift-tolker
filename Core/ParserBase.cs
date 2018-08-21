@@ -49,5 +49,11 @@ namespace Core
         {
             return Content.FirstOrDefault(line => line.Contains(text)) != null;
         }
+
+        public virtual IEnumerable<AccountState> GetAccoutStates()
+        {
+            return new List<AccountState>();
+        }
+
     }
 }

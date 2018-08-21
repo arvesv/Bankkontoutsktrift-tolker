@@ -10,5 +10,7 @@ namespace Core
         string Account { get; set; }
 
         IEnumerable<Transaction> GetTransactions();
+
+        IEnumerable<AccountState> GetAccoutStates();
     }
 }
