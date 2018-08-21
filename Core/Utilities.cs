@@ -7,15 +7,7 @@ namespace Core
 {
     public class Utilities
     {
-        // List of "kontoutskrifte" we recognize
-
-        public static Type[] ParserClasses { get; } =
-        {
-            typeof(TrumfVisa),
-            typeof(KomplettKreditt),
-            typeof(NorwegianKortet)
-        };
-
+        public delegate bool Equals<T>(T t1, T t2);
 
         public static IEnumerable<string> PdfToText(string pdfFile)
         {
@@ -58,22 +50,28 @@ namespace Core
                        .GetTransactions() ?? new List<Transaction>();
         }
 
-
-        public static (IEnumerable<Transaction> onlyFirst, IEnumerable<Transaction> onlySecond) CompareListe(
-            IEnumerable<Transaction> first, IList<Transaction> second)
+        public static bool IsEqualTrans(Transaction t1, Transaction t2)
         {
-            var onlyFirst = new List<Transaction>();
+            const int maxDateDiff = 4;
 
-            foreach (var t in first)
-            {
-                var potential = second.Where(s =>
-                    (s.TransactionDate - t.TransactionDate).Days < 5 && s.Amount == t.Amount);
-                if (!potential.Any())
-                    onlyFirst.Add(t);
-            }
+            return t1.Amount == t2.Amount && (t1.TransactionDate - t2.TransactionDate).Days < maxDateDiff;
+        }
 
+        private static IList<T> OnlyInFirstList<T>(IEnumerable<T> first, IList<T> second, Equals<T> comparer)
+        {
+            return (from t in first
+                let potentialMatches =
+                    second.Where(s => comparer(s, t))
+                where !potentialMatches.Any()
+                select t).ToList();
+        }
 
-            return (onlyFirst, null);
+        public static (IList<Transaction> onlyFirst, IList<Transaction> onlySecond) CompareListe(
+            IList<Transaction> first, IList<Transaction> second)
+        {
+            return (
+                OnlyInFirstList(first, second, IsEqualTrans),
+                OnlyInFirstList(second, first, IsEqualTrans));
         }
     }
 }

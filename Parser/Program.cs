@@ -20,15 +20,21 @@ namespace Parser
 
             var result = Directory
                 .GetFiles(directory, "*.pdf")
-                .SelectMany(f => Utilities.Parse(f))
-                .OrderBy(l => l.TransactionDate).ToList();
+                .SelectMany(Utilities.Parse)
+                .OrderBy(l => l.TransactionDate)
+                .Where(l => l.TransactionDate.Year == 2018)
+                .ToList();
 
-            var x = OtherParser.ReadDataxCsv(@"S:\FellesRegnskap\2018\Kontoutskrift\Kontoutdrag 17-08-2018.csv");
+            var x = OtherParser.ReadDataxCsv(@"S:\FellesRegnskap\2018\Kontoutskrift\datax.csv");
 
             var (fir, la) = Utilities.CompareListe(result, x);
 
 
+            Console.WriteLine("First {0} of {1}", fir.Count, result.Count);
             foreach (var r in fir) Console.WriteLine(r);
+
+            Console.WriteLine("\nSecond {0} of {1}", la.Count, x.Count);
+            foreach (var r in la) Console.WriteLine(r);
 
             Console.ReadLine();
         }
