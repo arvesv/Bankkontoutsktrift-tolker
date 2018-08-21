@@ -11,6 +11,12 @@ namespace Core
         private static readonly LocalDatePattern
             DatePattern = LocalDatePattern.CreateWithInvariantCulture("dd.MM.yy");
 
+        private readonly NumberFormatInfo _trumfExitBalanceNumberFormat = new NumberFormatInfo
+        {
+            NumberDecimalSeparator = ",",
+            NumberGroupSeparator = "."
+        };
+
         private readonly NumberFormatInfo _trumfNumberFormat = new NumberFormatInfo
         {
             NumberDecimalSeparator = ",",
@@ -111,6 +117,19 @@ namespace Core
                     RecordDate = DatePattern.Parse(match.Groups[1].Value).Value,
                     Amount = decimal.Parse(match.Groups[4].Value, _trumfNumberFormat),
                     Description = match.Groups[2].Value
+                }
+                : null;
+        }
+
+        public override AccountBalance ParserStatmentLine(string line)
+        {
+            const string closingBalanceText = "Skyldig bel°p pr. ";
+
+            return line.StartsWith(closingBalanceText)
+                ? new AccountBalance
+                {
+                    Date = DatePattern.Parse(line.Substring(closingBalanceText.Length, 8)).Value,
+                    Amount = -decimal.Parse(line.Substring(27), _trumfExitBalanceNumberFormat)
                 }
                 : null;
         }

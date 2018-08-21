@@ -11,6 +11,6 @@ namespace Core
 
         IEnumerable<Transaction> GetTransactions();
 
-        IEnumerable<AccountState> GetAccoutStates();
+        IEnumerable<AccountBalance> GetAccoutBalances();
     }
 }
