@@ -2,6 +2,7 @@ using System.Linq;
 using Core;
 using NodaTime;
 using Xunit;
+
 // ReSharper disable PossibleMultipleEnumeration
 
 namespace TestCore
@@ -17,6 +18,33 @@ namespace TestCore
             var result = parser.GetTransactions();
 
             Assert.Empty(result);
+        }
+
+        [Fact]
+        public void TestReadBalances()
+        {
+            var content = new[]
+            {
+                "Skyldig bel°p pr. 15.01.18 12.786,43"
+            };
+
+            var parser = new TrumfVisa(content);
+
+            var result = parser.GetAccoutBalances();
+            Assert.Single(result);
+            Assert.Equal(-12786.43m, result.First().Amount);
+            Assert.Equal(new LocalDate(2018, 1, 15), result.First().Date);
+        }
+
+
+        [Fact]
+        public void TestReadEmptyBalance()
+        {
+            var content = new string[0];
+
+            var parser = new TrumfVisa(content);
+
+            Assert.Empty(parser.GetAccoutBalances());
         }
 
         [Fact]
@@ -111,33 +139,5 @@ namespace TestCore
             // ReSharper disable once PossibleMultipleEnumeration
             Assert.Equal(12518.62m, result.Amount);
         }
-
-
-        [Fact]
-        public void TestReadEmptyBalance()
-        {
-            var content = new string[0];
-
-            var parser = new TrumfVisa(content);
-
-            Assert.Empty(parser.GetAccoutBalances());
-        }
-
-        [Fact]
-        public void TestReadBalances()
-        {
-            var content = new[]
-            {
-                "Skyldig bel°p pr. 15.01.18 12.786,43"
-            };
-           
-            var parser = new TrumfVisa(content);
-
-            var result = parser.GetAccoutBalances();
-            Assert.Single(result);
-            Assert.Equal(-12786.43m, result.First().Amount);
-            Assert.Equal(new LocalDate(2018, 1, 15), result.First().Date);
-        }
-
     }
 }

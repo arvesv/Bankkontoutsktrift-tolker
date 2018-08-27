@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using NodaTime;
 
 namespace Core
 {
@@ -54,7 +55,7 @@ namespace Core
             IList<Transaction> first, IList<Transaction> second)
         {
             IList<Transaction> onlyFirst = new List<Transaction>();
-            bool[] alreadyMatchedList = new bool[second.Count];
+            var alreadyMatchedList = new bool[second.Count];
 
             foreach (var firstLisTransaction in first)
             {
@@ -62,12 +63,12 @@ namespace Core
                 var mindatediff = 0;
 
 
-                for (int pos = 0; pos < second.Count; pos++)
+                for (var pos = 0; pos < second.Count; pos++)
                 {
                     if (alreadyMatchedList[pos] || firstLisTransaction.Amount != second[pos].Amount) continue;
 
-                    var datediff = Math.Abs((firstLisTransaction.TransactionDate - second[pos].TransactionDate).Days);
-                    if(datediff > 3)
+                    var datediff = DateDiff(firstLisTransaction.TransactionDate, second[pos].TransactionDate);
+                    if (datediff > 3)
                         continue;
 
                     if (bestMatch == null || datediff < mindatediff)
@@ -78,13 +79,9 @@ namespace Core
                 }
 
                 if (bestMatch.HasValue)
-                {
                     alreadyMatchedList[bestMatch.Value] = true;
-                }
                 else
-                {
                     onlyFirst.Add(firstLisTransaction);
-                }
             }
 
             var onlySecond = Enumerable.Range(0, second.Count)
@@ -93,6 +90,11 @@ namespace Core
                 .ToList();
 
             return (onlyFirst, onlySecond);
+        }
+
+        public static int DateDiff(LocalDate date1, LocalDate date2)
+        {
+            return Math.Abs(Period.Between(date1, date2, PeriodUnits.Days).Days);
         }
     }
 }
